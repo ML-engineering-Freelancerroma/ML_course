@@ -4,3 +4,4 @@ taxi_dataset_with_target.csv
 data.csv
 *.csv
 *.xlsx
+*.PNG
