@@ -24,3 +24,15 @@ class PostGet(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class FeedGet(BaseModel):
+    user_id: int
+    user: UserGet
+    post_id: int
+    post: PostGet
+    action: str
+    time: datetime
+
+    class Config:
+        from_attributes = True
