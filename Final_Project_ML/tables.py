@@ -1,24 +1,34 @@
-from sqlalchemy import Column, Integer, String, desc, func, ForeignKey, TIMESTAMP
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    desc,
+    func,
+    ForeignKey,
+    TIMESTAMP
+)
 from sqlalchemy.orm import relationship
 
 from database import Base
 
 
 class Post(Base):
-    pass
+    __tablename__ = 'post'
+    id = Column(Integer, primary_key=True)
+    text = Column(String)
+    topic = Column(String)    
 
 
 class User(Base):
     __tablename__ = 'user'
-    id = 
-    gender = 
-    age = 
-    country = 
-    city = 
-    exp_group = 
-    os = 
-    source = 
-    pass
+    id = Column(Integer, primary_key=True)
+    gender = Column(Integer)
+    age = Column(Integer)
+    country = Column(String)
+    city = Column(String)
+    exp_group = Column(Integer)
+    os = Column(String)
+    source = Column(String)
 
 
 class Feed(Base):
@@ -29,3 +39,5 @@ class Feed(Base):
     post = relationship(Post)
     action = Column(String)
     time = Column(TIMESTAMP)
+
+
