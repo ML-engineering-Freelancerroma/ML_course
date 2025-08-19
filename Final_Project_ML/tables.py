@@ -2,8 +2,6 @@ from sqlalchemy import (
     Column,
     Integer,
     String,
-    desc,
-    func,
     ForeignKey,
     TIMESTAMP
 )
@@ -39,5 +37,3 @@ class Feed(Base):
     post = relationship(Post)
     action = Column(String)
     time = Column(TIMESTAMP)
-
-
