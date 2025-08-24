@@ -18,7 +18,10 @@ def get_db():
 
 
 @app.get('/user/{id}', response_model=UserGet)
-def user_get(id: int, db: Session = Depends(get_db)):
+def user_get(
+    id: int,
+    db: Session = Depends(get_db)
+) -> User:
     response = (
         db.query(User).
         filter(User.id == id).
@@ -30,7 +33,10 @@ def user_get(id: int, db: Session = Depends(get_db)):
 
 
 @app.get('/post/{id}', response_model=PostGet)
-def post_get(id: int, db: Session = Depends(get_db)):
+def post_get(
+    id: int,
+    db: Session = Depends(get_db)
+) -> Post:
     response = (
         db.query(Post).
         filter(Post.id == id).
@@ -53,10 +59,16 @@ def feed_user_get(id: int, limit=10, db: Session = Depends(get_db)):
     return response
 
 
-# @app.get('/post/{id}/feed', response_model=List[FeedGet])
-# def feed_user_get(id: int, limit=10, db: Session = Depends(get_db)):
-#     response = db.query(Feed).filter(Feed.post_id == id).order_by(desc(Feed.time)).limit(limit).all()
-#     return response
+@app.get('/post/{id}/feed', response_model=List[FeedGet])
+def feed_post_get(id: int, limit=10, db: Session = Depends(get_db)):
+    response = (
+        db.query(Feed).
+        filter(Feed.post_id == id).
+        order_by(desc(Feed.time)).
+        limit(limit).
+        all()
+    )
+    return response
 
 
 # @app.get('/post/recommendations/', response_model=List[PostGet])
