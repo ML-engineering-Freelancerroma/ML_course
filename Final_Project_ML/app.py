@@ -48,7 +48,11 @@ def post_get(
 
 
 @app.get('/user/{id}/feed', response_model=List[FeedGet])
-def feed_user_get(id: int, limit=10, db: Session = Depends(get_db)):
+def feed_user_get(
+    id: int,
+    limit=10,
+    db: Session = Depends(get_db)
+) -> List[Feed]:
     response = (
         db.query(Feed).
         filter(Feed.user_id == id).
@@ -60,7 +64,11 @@ def feed_user_get(id: int, limit=10, db: Session = Depends(get_db)):
 
 
 @app.get('/post/{id}/feed', response_model=List[FeedGet])
-def feed_post_get(id: int, limit=10, db: Session = Depends(get_db)):
+def feed_post_get(
+    id: int,
+    limit=10,
+    db: Session = Depends(get_db)
+) -> List[Feed]:
     response = (
         db.query(Feed).
         filter(Feed.post_id == id).
