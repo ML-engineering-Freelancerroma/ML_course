@@ -79,16 +79,20 @@ def feed_post_get(
     return response
 
 
-# @app.get('/post/recommendations/', response_model=List[PostGet])
-# def get_recommended_feed(id: int, limit=10, db: Session = Depends(get_db)) -> List[PostGet]:
-#     response = (
-#         db.query(Post.id, Post.text, Post.topic).
-#         select_from(Feed).
-#         join(Post, Post.id == Feed.post_id).
-#         filter(Feed.action == 'like').
-#         group_by(Post.id).
-#         order_by(func.count(Feed.post_id).desc()).
-#         limit(limit).
-#         all()
-#     )
-#     return response
+@app.get('/post/recommendations/', response_model=List[PostGet])
+def get_recommended_feed(
+    id: int,
+    limit=10,
+    db: Session = Depends(get_db)
+) -> List[PostGet]:
+    response = (
+        db.query(Post.id, Post.text, Post.topic).
+        select_from(Feed).
+        join(Post, Post.id == Feed.post_id).
+        filter(Feed.action == 'like').
+        group_by(Post.id).
+        order_by(func.count(Feed.post_id).desc()).
+        limit(limit).
+        all()
+    )
+    return response
