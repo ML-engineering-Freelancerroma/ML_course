@@ -6,3 +6,5 @@ data.csv
 *.xlsx
 *.PNG
 catboost_info
+.env
+.venv
