@@ -20,3 +20,7 @@ def batch_load_sql(query: str) -> pd.DataFrame:
         chunks.append(chunk_dataframe)
     conn.close()
     return pd.concat(chunks, ignore_index=True)
+
+
+def load_features(select) -> pd.DataFrame:
+    return batch_load_sql(select)
