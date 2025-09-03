@@ -24,3 +24,11 @@ def batch_load_sql(query: str) -> pd.DataFrame:
 
 def load_features(select) -> pd.DataFrame:
     return batch_load_sql(select)
+
+
+def get_model_path(path: str) -> str:
+    if os.environ.get("IS_LMS") == "1":
+        MODEL_PATH = '/workdir/user_input/model'
+    else:
+        MODEL_PATH = path
+    return MODEL_PATH
