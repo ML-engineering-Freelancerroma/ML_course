@@ -3,7 +3,7 @@ import os
 import pandas as pd
 from sqlalchemy import create_engine
 from dotenv import load_dotenv
-
+from catboost import CatBoostClassifier
 
 load_dotenv()
 
@@ -32,3 +32,12 @@ def get_model_path(path: str) -> str:
     else:
         MODEL_PATH = path
     return MODEL_PATH
+
+
+# доработка
+def load_models():
+    model_path = get_model_path("Путь", "test")
+    from_file = CatBoostClassifier()
+    from_file.load_model(model_path)
+
+    return from_file
