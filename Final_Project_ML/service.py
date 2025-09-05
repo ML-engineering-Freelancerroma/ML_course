@@ -41,3 +41,9 @@ def load_models():
     from_file.load_model(model_path)
 
     return from_file
+
+# ???
+def load_model():
+    model = load_models()
+    print('Model uploaded')
+    return model
