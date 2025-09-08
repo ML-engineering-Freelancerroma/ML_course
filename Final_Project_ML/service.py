@@ -42,8 +42,16 @@ def load_models():
 
     return from_file
 
+
 # ???
 def load_model():
     model = load_models()
     print('Model uploaded')
     return model
+
+
+def load_posts():
+    posts = load_features("SELECT * ...")
+    posts_text = posts[['post_id', 'text', 'topic']]
+    print('Posts uploaded')
+    return posts.drop('text', axis=1), posts_text
