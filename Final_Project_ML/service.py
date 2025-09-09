@@ -55,3 +55,12 @@ def load_posts():
     posts_text = posts[['post_id', 'text', 'topic']]
     print('Posts uploaded')
     return posts.drop('text', axis=1), posts_text
+
+
+def load_users():
+    users = load_features("SELECT * ...")
+    print('Users uploaded')
+    return users
+
+
+def predict_posts(user_id: int, limit: int):
