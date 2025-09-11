@@ -81,3 +81,18 @@ def predict_posts(user_id: int, limit: int):
     features['probas'] = model.predict_proba(features_final)[:, 1]
     top_posts = features.sort_values('probas', ascending=False).iloc[:limit]
     return top_posts['post_id'].tolist()
+
+
+def predict_test_posts(user_id: int, limit: int):
+    features = pd.merge(users[users['user_id'] == user_id], posts, how='cross')
+    features_final_unordered = features.drop(['user_id', 'post_id'], axis=1)
+    desired_order = [
+        'gender', 'age', 'country', 'city', 'exp_group', 'os', 'source',
+        'favorite_topic', 'topic', 'average_sentence_length', 'post_len',
+        'tsne-2d-one', 'tsne-2d-two', 'cluster', 'total_likes', 'like_rate',
+        'avg_liking_age'
+    ]
+    features_final = features_final_unordered.reindex(columns=desired_order)
+    features['probas'] = model_test.predict_proba(features_final)[:, 1]
+    top_posts = features.sort_values('probas', ascending=False).iloc[:limit]
+    return top_posts['post_id'].tolist()
