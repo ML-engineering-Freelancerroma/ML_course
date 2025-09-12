@@ -4,6 +4,7 @@ import pandas as pd
 from sqlalchemy import create_engine
 from dotenv import load_dotenv
 from catboost import CatBoostClassifier
+from typing import List
 
 load_dotenv()
 
@@ -96,3 +97,8 @@ def predict_test_posts(user_id: int, limit: int):
     features['probas'] = model_test.predict_proba(features_final)[:, 1]
     top_posts = features.sort_values('probas', ascending=False).iloc[:limit]
     return top_posts['post_id'].tolist()
+
+
+def load_post_texts(post_ids: List[int]) -> List[dict]:
+    records = posts_text[posts_text['post_id'].isin(post_ids)]
+    return records.to_dict("records")
