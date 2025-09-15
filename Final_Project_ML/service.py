@@ -1,10 +1,12 @@
 import os
+import hashlib
 
 import pandas as pd
 from sqlalchemy import create_engine
 from dotenv import load_dotenv
 from catboost import CatBoostClassifier
 from typing import List
+
 
 load_dotenv()
 
@@ -102,3 +104,11 @@ def predict_test_posts(user_id: int, limit: int):
 def load_post_texts(post_ids: List[int]) -> List[dict]:
     records = posts_text[posts_text['post_id'].isin(post_ids)]
     return records.to_dict("records")
+
+
+def get_exp_group(user_id: int) -> str:
+    res = int(
+        hashlib.md5((str(user_id) + 'my_unique_salt').encode()).hexdigest(), 16
+    ) % 2
+    return str(res)
+
