@@ -30,27 +30,25 @@ def load_features(select) -> pd.DataFrame:
 
 
 def get_model_path(path: str) -> str:
-    if os.environ.get("IS_LMS") == "1":
-        MODEL_PATH = '/workdir/user_input/model'
-    else:
-        MODEL_PATH = path
-    return MODEL_PATH
+    if os.environ.get('IS_LMS') == '1':
+        return '/workdir/user_input/model'
+    return path
 
 
-# доработка
 def load_models():
-    model_path = get_model_path("Путь", "test")
-    from_file = CatBoostClassifier()
-    from_file.load_model(model_path)
+    model_path_control = get_model_path(os.getenv('PATH_CONTROL'))
+    model_path_test = get_model_path(os.getenv('PATH_TEST'))
+    from_file_control = CatBoostClassifier()
+    from_file_control.load_model(model_path_control)
+    from_file_test = CatBoostClassifier()
+    from_file_test.load_model(model_path_test)
+    return from_file_control, from_file_test
 
-    return from_file
 
-
-# ???
 def load_model():
-    model = load_models()
-    print('Model uploaded')
-    return model
+    model_test, model_control = load_models()
+    print('Models uploaded')
+    return model_test, model_control
 
 
 def load_posts():
@@ -111,4 +109,3 @@ def get_exp_group(user_id: int) -> str:
         hashlib.md5((str(user_id) + 'my_unique_salt').encode()).hexdigest(), 16
     ) % 2
     return str(res)
-
