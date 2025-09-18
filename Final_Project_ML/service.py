@@ -52,14 +52,14 @@ def load_model():
 
 
 def load_posts():
-    posts = load_features("SELECT * ...")
+    posts = load_features('SELECT * from posts_features')
     posts_text = posts[['post_id', 'text', 'topic']]
     print('Posts uploaded')
     return posts.drop('text', axis=1), posts_text
 
 
 def load_users():
-    users = load_features("SELECT * ...")
+    users = load_features("SELECT * from users_features")
     print('Users uploaded')
     return users
 
