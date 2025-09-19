@@ -82,20 +82,19 @@ def feed_post_get(
     return response
 
 
-# @app.get('/post/recommendations/', response_model=List[PostGet])
-# def get_recommended_feed(
-#     id: int,
-#     limit=10,
-#     db: Session = Depends(get_db)
-# ) -> List[PostGet]:
-#     response = (
-#         db.query(Post.id, Post.text, Post.topic).
-#         select_from(Feed).
-#         join(Post, Post.id == Feed.post_id).
-#         filter(Feed.action == 'like').
-#         group_by(Post.id).
-#         order_by(func.count(Feed.post_id).desc()).
-#         limit(limit).
-#         all()
-#     )
-#     return response
+@app.get("/post/recommendations/", response_model=List[PostGet])
+def recommended_posts(
+        id: int, 
+        # time: datetime, 
+        limit: int = 5) -> List[PostGet]:
+    post_ids = predict_posts(id, limit)
+    records = load_post_texts(post_ids)
+
+    posts = []
+    for rec in records:
+        rec["id"] = rec.pop("post_id")  # change "post_id" to "id"
+        try:
+            posts.append(PostGet(**rec))
+    #     except pydantic.error_wrappers.ValidationError as e:
+    #         print(f"Validation error for record {rec}: {e}")
+    # return posts
