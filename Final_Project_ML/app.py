@@ -3,6 +3,7 @@ from typing import List
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import desc, func
+import pydantic
 
 from schema import UserGet, PostGet, FeedGet
 from tables import Post, User, Feed
@@ -10,6 +11,7 @@ from database import SessionLocal
 from service import (
     predict_posts, predict_test_posts, load_post_texts, get_exp_group
 )
+from datetime import datetime
 
 
 app = FastAPI()
@@ -85,7 +87,7 @@ def feed_post_get(
 @app.get("/post/recommendations/", response_model=List[PostGet])
 def recommended_posts(
         id: int, 
-        # time: datetime, 
+        time: datetime, 
         limit: int = 5) -> List[PostGet]:
     post_ids = predict_posts(id, limit)
     records = load_post_texts(post_ids)
@@ -95,6 +97,6 @@ def recommended_posts(
         rec["id"] = rec.pop("post_id")  # change "post_id" to "id"
         try:
             posts.append(PostGet(**rec))
-    #     except pydantic.error_wrappers.ValidationError as e:
-    #         print(f"Validation error for record {rec}: {e}")
-    # return posts
+        except pydantic.error_wrappers.ValidationError as e:
+            print(f"Validation error for record {rec}: {e}")
+    return posts
