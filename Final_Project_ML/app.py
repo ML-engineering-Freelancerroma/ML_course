@@ -84,7 +84,7 @@ def feed_post_get(
     return response
 
 
-@app.get("/post/recommendations/", response_model=List[PostGet])
+@app.get('/post/recommendations/', response_model=List[PostGet])
 def recommended_posts(
         id: int, 
         time: datetime, 
@@ -94,9 +94,9 @@ def recommended_posts(
 
     posts = []
     for rec in records:
-        rec["id"] = rec.pop("post_id")  # change "post_id" to "id"
+        rec['id'] = rec.pop('post_id')
         try:
             posts.append(PostGet(**rec))
         except pydantic.error_wrappers.ValidationError as e:
-            print(f"Validation error for record {rec}: {e}")
+            print(f'Validation error for record {rec}: {e}')
     return posts
