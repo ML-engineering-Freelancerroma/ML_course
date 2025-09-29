@@ -106,7 +106,7 @@ def load_post_texts(post_ids: List[int]) -> List[dict]:
 
 def get_exp_group(user_id: int) -> str:
     salt = os.getenv('SALT')
-    # result = int(
-    #     hashlib.sha256((str(user_id) + 'salt').encode()).hexdigest(), 16
-    # ) % 2
+    result = int(
+        hashlib.sha256((str(user_id) + salt).encode()).hexdigest(), 16
+    ) % 2
     return str(result)
