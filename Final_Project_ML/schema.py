@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import List
 
 from pydantic import BaseModel
 
@@ -36,3 +37,8 @@ class FeedGet(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class Response(BaseModel):
+    exp_group: str
+    recommendations: List[PostGet]
