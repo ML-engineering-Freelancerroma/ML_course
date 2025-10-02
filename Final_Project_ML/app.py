@@ -102,9 +102,9 @@ def recommended_posts(
         rec['id'] = rec.pop('post_id')
         posts.append(PostGet(**rec))
 
-    # response = Response(
-    #     recommendations=posts,
-    #     exp_group='control'
-    #     if exp_group == 1 else 'test'
-    # )
+    response = Response(
+        recommendations=posts,
+        exp_group='control'
+        if exp_group == 1 else 'test'
+    )
     return response
