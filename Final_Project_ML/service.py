@@ -75,7 +75,7 @@ def predict_posts(user_id: int, limit: int):
     desired_order = [
         'gender', 'age', 'country', 'city', 'exp_group', 'os', 'source',
         'favorite_topic', 'topic', 'average_sentence_length', 'post_len',
-        'tsne-2d-one', 'tsne-2d-two', 'cluster', 'total_likes', 'like_rate',
+        'cluster', 'total_likes', 'like_rate',
         'avg_liking_age'
     ]
     features_final = features_final_unordered.reindex(columns=desired_order)
@@ -89,9 +89,9 @@ def predict_test_posts(user_id: int, limit: int):
     features_final_unordered = features.drop(['user_id', 'post_id'], axis=1)
     desired_order = [
         'gender', 'age', 'country', 'city', 'exp_group', 'os', 'source',
-        'favorite_topic', 'topic', 'average_sentence_length', 'post_len',
-        'tsne-2d-one', 'tsne-2d-two', 'cluster', 'total_likes', 'like_rate',
-        'avg_liking_age'
+        'favorite_topic', 'topic', 'total_likes', 'like_rate',
+        'avg_age_likes', 'post_len', 'avg_sent_len',
+        'cluster'
     ]
     features_final = features_final_unordered.reindex(columns=desired_order)
     features['probas'] = model_test.predict_proba(features_final)[:, 1]
